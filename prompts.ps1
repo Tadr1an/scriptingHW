@@ -1,8 +1,5 @@
 # Tadrian Davis 011332686
 
-#unzips Requirements1
-Expand-Archive "C:\Users\LabAdmin\Desktop\Requirements1.zip" "C:\Users\LabAdmin\Desktop\Requirements1"
-
 try {
     
 }
