@@ -15,8 +15,8 @@ $NewADUsers = Import-Csv -Path "C:\Users\LabAdmin\Desktop\Requirements2\financeP
 $path = "OU=Finance,DC=consultingfirm,DC=COM"
 foreach ($newUser in $NewADUsers)
 {
-    $firstName = $newUser.FirstName
-    $lastName = $newUser.LastName
+    $firstName = $newUser.First_Name
+    $lastName = $newUser.Last_Name
     $displayName = $firstName + " " + $lastName
     $postalCode = $newUser.PostalCode
     $officePhone = $newUser.OfficePhone
