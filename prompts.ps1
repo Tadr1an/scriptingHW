@@ -1,5 +1,8 @@
 # Tadrian Davis 011332686
 
+#unzips Requirements1.zip to Requirements1 folder
+Expand-Archive "C:\Users\LabAdmin\Desktop\Requirements1.zip" "C:\Users\LabAdmin\Desktop\Requirements1"
+
 try {
     
 }
@@ -21,7 +24,8 @@ while(1 -ne 100) {
         #lists CPU and RAM usage
         3 {Get-Counter '\Memory\Available MBytes'; Get-Counter '\Processor(_Total)\% Processor Time'}
         #lists processes and sorts as grid
-        4 {Get-Process | Sort-Object WS | Format-Table }
+        4 {Get-Process | Select-Object Handles, NonpagedSystemMemorySize, PM, WS, CPU, Id, ProcessName, VirtualMemorySize | Sort-Object VirtualMemorySize | Format-Table }
+            Write-Host "Processes are sorted by virtual size used from least to greatest."
         #exits script
         5 {"You have exited."; exit}
     }
