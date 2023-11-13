@@ -25,7 +25,6 @@ while(1 -ne 100) {
         3 {Get-Counter '\Memory\Available MBytes'; Get-Counter '\Processor(_Total)\% Processor Time'}
         #lists processes and sorts as grid
         4 {Get-Process | Select-Object Handles, NonpagedSystemMemorySize, PM, WS, CPU, Id, ProcessName, VirtualMemorySize | Sort-Object VirtualMemorySize | Format-Table }
-            Write-Host "Processes are sorted by virtual size used from least to greatest."
         #exits script
         5 {"You have exited."; exit}
     }
