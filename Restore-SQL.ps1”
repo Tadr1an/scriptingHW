@@ -1,0 +1,34 @@
+if (Get-Module -name sqlps) { Remove-Module sq1ps }
+Import-Module -Name SqlServer
+
+$dbStatus = Get-SqlDatabase -ServerInstance "SRV19-PRIMARY\SQLEXPRESS" -Name "ClientDB"
+
+if (dbStatus -eq $null) {
+    Write-Host "The database does not exist"
+} else {
+    Write-Host "The database exists"
+    #Delete database code goes here
+    Write-Host "The database has been deleted"
+}
+
+$sqlServerInstanceName = "SRV19-PRIMARY\SQLEXPRESS"
+
+$sqlServerObject = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Server -ArgumentList $sqlServerInstanceName
+
+$databaseName = 'ClientDB'
+
+$database = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Database -ArgumentList $sqlServerObject, $databaseName
+
+$databaseObject.Create()
+Write-Host "Database has been created"
+
+CreateTable_CustomerLeads.sql
+    CREATE TABLE Client_A_Contacts
+    (
+        first_name varchar(100),
+        last_name varchar(100),
+        city varchar(50),
+        county varchar(50),
+    )
+
+Invoke-Sqlcmd -Database ClientDB –ServerInstance .\SQLEXPRESS -Query ‘SELECT * FROM dbo.Client_A_Contacts’ > .\SqlResults.txt
