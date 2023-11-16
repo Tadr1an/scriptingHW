@@ -3,7 +3,7 @@ Import-Module -Name SqlServer
 
 $dbStatus = Get-SqlDatabase -ServerInstance "SRV19-PRIMARY\SQLEXPRESS" -Name "ClientDB"
 
-if (dbStatus -eq $null) {
+if ($dbStatus -eq $null) {
     Write-Host "The database does not exist"
 } else {
     Write-Host "The database exists"
@@ -22,13 +22,4 @@ $database = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Database -Ar
 $databaseObject.Create()
 Write-Host "Database has been created"
 
-CreateTable_CustomerLeads.sql
-    CREATE TABLE Client_A_Contacts
-    (
-        first_name varchar(100),
-        last_name varchar(100),
-        city varchar(50),
-        county varchar(50),
-    )
-
-Invoke-Sqlcmd -Database ClientDB –ServerInstance .\SQLEXPRESS -Query ‘SELECT * FROM dbo.Client_A_Contacts’ > .\SqlResults.txt
+Invoke-Sqlcmd –ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile $PSScriptRoot\CreateTable_CustomerLeads.sql
