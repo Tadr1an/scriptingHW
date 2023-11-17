@@ -2,16 +2,16 @@ if (Get-Module -name sqlps) { Remove-Module sqlps }
 Import-Module -Name SqlServer
 
 $dbStatus = Get-SqlDatabase -ServerInstance "SRV19-PRIMARY\SQLEXPRESS" -Name "ClientDB"
+$sqlServerInstanceName = "SRV19-PRIMARY\SQLEXPRESS"
 
 if ($dbStatus -gt "") {
     Write-Host "The database does exist"
-    Remove-SqlDatabase -ServerInstance "SRV19-PRIMARY\SQLEXPRESS" -Name "ClientDB"
+
+    Invoke-Sqlcmd -ServerInstance $sqlServerInstanceName -Query "DROP DATABASE [ClientDB]"
     Write-Host "The database has been deleted"
 } else {
     Write-Host "The database does not exist"
 }
-
-$sqlServerInstanceName = "SRV19-PRIMARY\SQLEXPRESS"
 
 $sqlServerObject = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Server -ArgumentList $sqlServerInstanceName
 
@@ -22,5 +22,21 @@ $databaseObject = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Databa
 $databaseObject.Create()
 Write-Host "Database has been created"
 
-Invoke-Sqlcmd –ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile C:\Users\LabAdmin\Downloads\CreateTable_CustomerLeads.sql
+Invoke-Sqlcmd –ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile C:\Users\LabAdmin\Downloads\CreateTable_Client_A_Contacts.sql
 
+$Insert = "Insert INTO [(Client_A_Contacts)] (first_name, last_name, city, county, zip, officePhone, mobilePhone) "
+$Client_A_Contacts = Import-Csv -Path C:\Users\LabAdmin\Downloads\Client_A_Contacts.csv
+
+ForEach($newCustomer in $Client_A_Contacts)
+{
+    $Values = "Values ( `
+                    '$($newCustomer.first_name)', 
+                    '$($newCustomer.last_name)',
+                    '$($newCustomer.city)',
+                    '$($newCustomer.county)',
+                    '$($newCustomer.zip)',
+                    '$($newCustomer.officePhone)',
+                    '$($newCustomer.mobilePhone)')"
+}
+$query = $Insert + $Values
+Invoke-Sqlcmd -Database $databaseName -ServerInstance $sqlServerInstanceName -Query $query
