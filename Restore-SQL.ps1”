@@ -5,10 +5,10 @@ $dbStatus = Get-SqlDatabase -ServerInstance "SRV19-PRIMARY\SQLEXPRESS" -Name "Cl
 
 if ($dbStatus -gt "") {
     Write-Host "The database does exist"
+    Remove-SqlDatabase -ServerInstance "SRV19-PRIMARY\SQLEXPRESS" -Name "ClientDB"
+    Write-Host "The database has been deleted"
 } else {
     Write-Host "The database does not exist"
-    #Delete database code goes here
-    Write-Host "The database has been deleted"
 }
 
 $sqlServerInstanceName = "SRV19-PRIMARY\SQLEXPRESS"
@@ -22,4 +22,5 @@ $databaseObject = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Databa
 $databaseObject.Create()
 Write-Host "Database has been created"
 
-Invoke-Sqlcmd –ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile $PSScriptRoot\CreateTable_CustomerLeads.sql
+Invoke-Sqlcmd –ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile C:\Users\LabAdmin\Downloads\CreateTable_CustomerLeads.sql
+
