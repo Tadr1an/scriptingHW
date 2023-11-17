@@ -1,7 +1,7 @@
 if (Get-Module -name sqlps) { Remove-Module sqlps }
 Import-Module -Name SqlServer
 
-$dbStatus = Get-SqlDatabase -ServerInstance "SRV19-PRIMARY\SQLEXPRESS" -Name "ClientDB"
+$dbStatus = Get-SqlDatabase -ServerInstance "SRV19-PRIMARY\SQLEXPRESS" -Name "ClientDB" -ErrorAction SilentlyContinue
 $sqlServerInstanceName = "SRV19-PRIMARY\SQLEXPRESS"
 
 if ($dbStatus -gt "") {
@@ -22,10 +22,10 @@ $databaseObject = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Databa
 $databaseObject.Create()
 Write-Host "Database has been created"
 
-Invoke-Sqlcmd –ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile C:\Users\LabAdmin\Downloads\CreateTable_Client_A_Contacts.sql
+Invoke-Sqlcmd –ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile C:\Users\LabAdmin\Downloads\createTable.sql
 
 $Insert = "INSERT INTO [Client_A_Contacts] (first_name, last_name, city, county, zip, officePhone, mobilePhone) "
-$Client_A_Contacts = Import-Csv -Path C:\Users\LabAdmin\Downloads\Client_A_Contacts.csv
+$Client_A_Contacts = Import-Csv -Path C:\Users\LabAdmin\Downloads\Requirements2\NewClientData.csv
 
 ForEach($newCustomer in $Client_A_Contacts)
 {
