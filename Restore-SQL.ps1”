@@ -1,12 +1,12 @@
-if (Get-Module -name sqlps) { Remove-Module sq1ps }
+if (Get-Module -name sqlps) { Remove-Module sqlps }
 Import-Module -Name SqlServer
 
 $dbStatus = Get-SqlDatabase -ServerInstance "SRV19-PRIMARY\SQLEXPRESS" -Name "ClientDB"
 
-if ($dbStatus -eq $null) {
-    Write-Host "The database does not exist"
+if ($dbStatus -gt "") {
+    Write-Host "The database does exist"
 } else {
-    Write-Host "The database exists"
+    Write-Host "The database does not exist"
     #Delete database code goes here
     Write-Host "The database has been deleted"
 }
