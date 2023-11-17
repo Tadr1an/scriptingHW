@@ -1,3 +1,4 @@
+# Tadrian Davis 011332686
 if (Get-Module -name sqlps) { Remove-Module sqlps }
 Import-Module -Name SqlServer
 
@@ -22,7 +23,7 @@ $databaseObject = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Databa
 $databaseObject.Create()
 Write-Host "Database has been created"
 
-Invoke-Sqlcmd –ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile C:\Users\LabAdmin\Downloads\createTable.sql
+Invoke-Sqlcmd –ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile C:\Users\LabAdmin\Downloads\Requirements2\createTable.sql
 
 $Insert = "INSERT INTO [Client_A_Contacts] (first_name, last_name, city, county, zip, officePhone, mobilePhone) "
 $Client_A_Contacts = Import-Csv -Path C:\Users\LabAdmin\Downloads\Requirements2\NewClientData.csv
