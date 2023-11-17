@@ -17,7 +17,7 @@ $sqlServerObject = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Serve
 
 $databaseName = 'ClientDB'
 
-$database = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Database -ArgumentList $sqlServerObject, $databaseName
+$databaseObject = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Database -ArgumentList $sqlServerObject, $databaseName
 
 $databaseObject.Create()
 Write-Host "Database has been created"
