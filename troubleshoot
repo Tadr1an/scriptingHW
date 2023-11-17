@@ -1,0 +1,10 @@
+$tableExists = Invoke-Sqlcmd -Database $databaseName -ServerInstance $sqlServerInstanceName -Query "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Client_A_Contacts'"
+
+if ($tableExists) {
+    Write-Host "Table exists, proceeding with data insertion"
+
+    # Insert data into the table
+    # ...
+} else {
+    Write-Host "Table does not exist"
+}
