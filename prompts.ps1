@@ -1,8 +1,5 @@
 # Tadrian Davis 011332686
 
-#unzips Requirements1.zip to Requirements1 folder
-Expand-Archive "C:\Users\LabAdmin\Downloads\Requirements1.zip" "C:\Users\LabAdmin\Downloads\Requirements1" -ErrorAction SilentlyContinue
-
 try {
     
 }
