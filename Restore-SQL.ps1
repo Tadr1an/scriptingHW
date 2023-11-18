@@ -1,17 +1,21 @@
 # Tadrian Davis 011332686
+#remove sqlps module if it exists and import sqlserver module
 if (Get-Module -name sqlps) { Remove-Module sqlps }
 Import-Module -Name SqlServer
 
+#check if database exists
 $dbStatus = Get-SqlDatabase -ServerInstance "SRV19-PRIMARY\SQLEXPRESS" -Name "ClientDB" -ErrorAction SilentlyContinue
+#set sql server instance name
 $sqlServerInstanceName = "SRV19-PRIMARY\SQLEXPRESS"
 
-if ($dbStatus -gt "") {
+if ($dbStatus -eq $null) {
+    Write-Host "The database does not exist"
+} else {
     Write-Host "The database does exist"
-
+    #disconnect users from database
+    Invoke-Sqlcmd -ServerInstance $sqlServerInstanceName -Query "ALTER DATABASE [ClientDB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE"
     Invoke-Sqlcmd -ServerInstance $sqlServerInstanceName -Query "DROP DATABASE [ClientDB]"
     Write-Host "The database has been deleted"
-} else {
-    Write-Host "The database does not exist"
 }
 
 $sqlServerObject = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Server -ArgumentList $sqlServerInstanceName
