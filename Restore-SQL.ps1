@@ -1,6 +1,7 @@
 # Tadrian Davis 011332686
 #remove sqlps module if it exists and import sqlserver module
-if (Get-Module -name sqlps) { Remove-Module sqlps }
+try{
+    if (Get-Module -name sqlps) { Remove-Module sqlps }
 Import-Module -Name SqlServer
 
 #check if database exists
@@ -45,4 +46,8 @@ ForEach($newCustomer in $Client_A_Contacts)
 
     $query = $Insert + $Values
     Invoke-Sqlcmd -Database $databaseName -ServerInstance $sqlServerInstanceName -Query $query
+}
+}catch {
+    Write-Output "Error: $($_.Exception.Message)"
+    Write-Output "Please contact the developer for assistance"
 }
