@@ -30,7 +30,7 @@ $databaseObject.Create()
 Write-Host "Database has been created"
 
 #create table
-Invoke-Sqlcmd –ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile C:\Users\LabAdmin\Downloads\Requirements2\createTable.sql
+Invoke-Sqlcmd -ServerInstance $sqlServerInstanceName -Database $databaseName -InputFile C:\Users\LabAdmin\Downloads\Requirements2\createTable.sql
 Write-Host "Client_A_Contacts Table has been created"
 
 #import csv file into table
@@ -59,4 +59,4 @@ ForEach($newCustomer in $Client_A_Contacts)
 }
 
 #export table to text file
-Invoke-Sqlcmd -Database ClientDB –ServerInstance .\SQLEXPRESS -Query ‘SELECT * FROM dbo.Client_A_Contacts’ > .\SqlResults.txt
+Invoke-Sqlcmd -Database ClientDB -ServerInstance .\SQLEXPRESS -Query 'SELECT * FROM dbo.Client_A_Contacts' > .\SqlResults.txt
