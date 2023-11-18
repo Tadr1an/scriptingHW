@@ -1,14 +1,24 @@
 # Tadrian Davis 011332686
 
-#creates variable for the Finance OU
-$finance = Get-ADOrganizationalUnit -Filter {Name -eq "Finance"} #creates variable for the Finance OU
+# Get the Finance OU
+$finance = Get-ADOrganizationalUnit -Filter {Name -eq "Finance"}
 
-
-#deletes the Finance OU if it exists
+# Deletes the Finance OU if it exists
 if ($finance -ne $null) {
-    Write-Output "Finance exists. It will be deleted now."; Remove-ADOrganizationalUnit -Identity "OU=Finance"
+    # Gets all users in the Finance OU
+    $users = Get-ADUser -Filter * -SearchBase $finance.DistinguishedName
+
+    # Deletes each user
+    foreach ($user in $users) {
+        Remove-ADUser -Identity $user.SamAccountName -Confirm:$false
+    }
+
+    # Deletes the OU
+    Remove-ADOrganizationalUnit -Identity $finance.DistinguishedName -Confirm:$false
+
+    Write-Output "Finance OU and all its contents have been deleted."
 } else {
-    Write-Output "Finance does not exist."
+    Write-Output "Finance OU does not exist."
 }
 
 #creates the Finance OU
