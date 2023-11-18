@@ -26,7 +26,7 @@ New-ADOrganizationalUnit -Name "Finance" -Path "DC=consultingfirm,DC=COM" -Prote
 Write-Output "Finance OU has been created."
 
 #imports the csv file containing the finance users
-$NewADUsers = Import-Csv -Path "C:\Users\LabAdmin\Desktop\Requirements2\financePersonnel.csv"
+$NewADUsers = Import-Csv -Path "C:\Users\LabAdmin\Downloads\Requirements2\financePersonnel.csv"
 
 #defines the path for the Finance OU
 $path = "OU=Finance,DC=consultingfirm,DC=COM"
